@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.7.4/lottie.min.js"></script>
+  </head>
+
+  <body>
+   
+    <div class="jheading">
+      <div class="covidGif">
+        <img
+          class="cg"
+          src="images/animation_500_krjwxf8a.gif"
+          alt="this slowpoke moves"
+        />
+      </div>
+      <div><h1 class="h1b">COVID &nbspINFORMATION &nbspCENTER</h1></div>
+    </div>
+
+    <h1>TOTAL</h1>
+    <div class="cci">
+      <div class="a">
+        <h3>Active cases</h3>
+        <h4 id="a1">0</h4>
+      </div>
+
+      <div class="b">
+        <h3>Discharged</h3>
+        <h4 id="a2">0</h4>
+      </div>
+
+      <div class="c">
+        <h3>Deaths</h3>
+        <h4 id="a3">0</h4>
+      </div>
+    </div>
+
+    <button id="b1" type="button"  class="jog">STATE WISE LIST OF COVID CASES</button>
+
+
+<div class="covidstatetable" id="mt">
+    <table id="myTable">
+        <tr>
+            <th><b></b></th>
+           
+            <th onclick="sortA(1)">STATE</th>
+            <th onclick="sortA(2)">CONFIRMED</th>
+            <th onclick="sortA(3)">ACTIVE</th>
+            <th onclick="sortA(4)">RECOVERED</th>
+            <th onclick="sortA(5)">DEATHS</th>
+            <th onclick="sortA(6)">TODAY</th>
+        </tr>
+
+     
+
+    </table>
+
+</div>
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      init();
+      
+      function init() {
+        var url = "https://api.covid19api.com/summary";
+
+        $.get(url, function (data) {
+          data1 = data.Countries[76].TotalConfirmed;
+          var commas = data1.toLocaleString("en-US");
+          document.getElementById("a1").innerHTML = commas;
+
+          data2 = data.Countries[76].TotalRecovered;
+          var commas2 = data2.toLocaleString("en-US");
+          document.getElementById("a2").innerHTML = commas2;
+
+          data3 = data.Countries[76].TotalDeaths;
+          var commas3 = data3.toLocaleString("en-US");
+          document.getElementById("a3").innerHTML = commas3;
+        });
+      }
+
+
+
+     
+ 
+});
+
+
+    
+
+    
+
+
+
+
+
+
+
+$(document).ready(function(){
+
+    const tc =$(".tc");
+    const td =$(".td");
+    const rec =$(".rec");
+    const ac =$(".ac");
+    
+  var length;
+  $.get("https://api.covid19india.org/data.json",function(response){
+//console.log(response);
+ var r = response;
+ length = r.statewise.length;
+ tc.html(r.statewise[0].confirmed);
+ td.html(r.statewise[0].deaths);
+ ac.html(r.statewise[0].recovered);
+ rec.html(r.statewise[0].active);
+
+
+ for(var i =1;i<=length;i++){
+     $("table").append("<tr><td>"+i+"</td><td>"
+      +r.statewise[i].state+"</td><td>"+r.statewise[i].confirmed
+        +"</td><td>"+r.statewise[i].active+"</td><td>"
+          +r.statewise[i].recovered+"</td><td>"
+            +r.statewise[i].deaths+"</td><td>"+r.statewise[i].deltaconfirmed);
+ }
+
+
+  });
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const tar=document.getElementById("mt");
+const btn = document.getElementById("b1");
+
+btn.onclick=function(){
+  
+  if(tar.style.display==''||tar.style.display=="none"){
+    tar.style.display="block";
+  }else{
+    tar.style.display="none";
+  }
+
+}
+
+function sortA(a){
+
+
+
+  var table, rows, switching, i, x, y, shouldSwitch;
+  table = document.getElementById("myTable");
+ switching = true;
+  /* Make a loop that will continue until
+  no switching has been done: */
+  while (switching) {
+    // Start by saying: no switching is done:
+    switching = false;
+    rows = table.rows;
+    /* Loop through all table rows (except the
+    first, which contains table headers): */
+    for (i = 1; i < (rows.length - 1); i++) {
+      // Start by saying there should be no switching:
+      shouldSwitch = false;
+      /* Get the two elements you want to compare,
+      one from current row and one from the next: */
+      x = rows[i].getElementsByTagName("TD")[a];
+      y = rows[i + 1].getElementsByTagName("TD")[a];
+      // Check if the two rows should switch place:
+
+      if(a==1){
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          // If so, mark as a switch and break the loop:
+          shouldSwitch = true;
+          break;
+        }
+      }
+
+      if (Number(x.innerHTML) < Number(y.innerHTML)) {
+  shouldSwitch = true;
+  break;
+}
+
+     
+    }
+    if (shouldSwitch) {
+      /* If a switch has been marked, make the switch
+      and mark that a switch has been done: */
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+    }
+  }
+  var table1;
+  var i=0;
+table1 = document.getElementById("myTable");
+while(i<37){
+  table1.rows[i+1].cells[0].innerHTML=i+1;
+  i++;
+
+}
+
+}
+
+
+
+
+
+     
+    </script>
+</html>
